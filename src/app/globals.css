@@ -73,3 +73,8 @@
     --font-sans: "__Inter_36bd41, __Inter_Fallback_36bd41";
   }
 }
+
+
+body{
+  background-color: var(--background);
+}
