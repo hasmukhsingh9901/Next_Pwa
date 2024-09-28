@@ -1,7 +1,8 @@
 "use client";
 import { Input, Button, Collapse, Select, Skeleton } from "antd";
 import { FilterOutlined, DownOutlined, UpOutlined, SearchOutlined } from "@ant-design/icons";
-import React from "react";
+import React, { useEffect } from "react";
+import { fetchMovies } from "@/lib/fetchMovies";
 
 const { Panel } = Collapse;
 
@@ -49,6 +50,16 @@ const MovieCardSkeleton = () => (
 );
 
 export default function Home() {
+  const fetchData = async () => {
+
+    const res = await fetchMovies({})
+    console.log(res)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   return (
     <>
       <header className="pt-12 pb-3">
