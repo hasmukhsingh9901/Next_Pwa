@@ -27,7 +27,7 @@ const Home = () => {
     console.log(key);
   };
   return (
-    <div className='w-screen h-screen bg-background'>
+    <div className='w-screen h-screen '>
       <Collapse defaultActiveKey={['1']} onChange={onChange} items={items} />
     </div>
   )
