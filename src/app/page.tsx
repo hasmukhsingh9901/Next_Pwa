@@ -1,42 +1,106 @@
-"use client"
-import React from 'react'
-import type { CollapseProps } from 'antd';
-import { Collapse } from 'antd';
+"use client";
+import { Input, Button, Collapse, Select, Skeleton } from "antd";
+import { FilterOutlined, DownOutlined, UpOutlined, SearchOutlined } from "@ant-design/icons";
+import React from "react";
 
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
+const { Panel } = Collapse;
 
-const items: CollapseProps['items'] = [
-  {
-    key: '1',
-    label: 'This is panel header with arrow icon',
-    children: <p>{text}</p>,
-  },
-  {
-    key: '2',
-    label: 'This is panel header with no arrow icon',
-    children: <p>{text}</p>,
-  },
-];
+const GenreList = () => (
+  <Select className="w-full" placeholder="Select Genre">
+    <Select.Option value="action">Action</Select.Option>
+    <Select.Option value="drama">Drama</Select.Option>
+    <Select.Option value="comedy">Comedy</Select.Option>
+  </Select>
+);
 
-const Home = () => {
-  const onChange = (key: string | string[]) => {
-    console.log(key);
-  };
+const ReleaseYearSelector = () => (
+  <Select className="w-full" placeholder="Select Year">
+    <Select.Option value="2023">2023</Select.Option>
+    <Select.Option value="2022">2022</Select.Option>
+    <Select.Option value="2021">2021</Select.Option>
+  </Select>
+);
+
+const DurationSelector = () => (
+  <Select className="w-full" placeholder="Select Duration">
+    <Select.Option value="short">Short</Select.Option>
+    <Select.Option value="medium">Medium</Select.Option>
+    <Select.Option value="long">Long</Select.Option>
+  </Select>
+);
+
+const RatingList = () => (
+  <Select className="w-full" placeholder="Select Rating">
+    <Select.Option value="5">5 stars</Select.Option>
+    <Select.Option value="4">4 stars</Select.Option>
+    <Select.Option value="3">3 stars</Select.Option>
+  </Select>
+);
+
+const MovieCard = () => (
+  <div className="bg-gray-100 p-4 rounded-lg">
+    <h3>Movie Title</h3>
+    <p>Some description about the movie...</p>
+  </div>
+);
+
+const MovieCardSkeleton = () => (
+  <Skeleton active />
+);
+
+export default function Home() {
   return (
-    <div className='w-screen h-screen '>
-      <Collapse defaultActiveKey={['1']} onChange={onChange} items={items} />
-    </div>
-  )
+    <>
+      <header className="pt-12 pb-3">
+        <h1 className="font-bold text-3xl">Your search</h1>
+      </header>
+
+      <div className="min-h-screen flex flex-col md:flex-row gap-4 md:gap-8 p-4">
+        <aside className="w-full md:w-64">
+          <Collapse
+            defaultActiveKey={["1"]}
+            expandIconPosition="right"
+            className="bg-white"
+          >
+            <Panel header="Filter" key="1" extra={<FilterOutlined />}>
+              <Collapse>
+                <Panel header="Genres" key="2">
+                  <GenreList />
+                </Panel>
+                <Panel header="Release Year" key="3">
+                  <ReleaseYearSelector />
+                </Panel>
+                <Panel header="Duration" key="4">
+                  <DurationSelector />
+                </Panel>
+                <Panel header="Rating" key="5">
+                  <RatingList />
+                </Panel>
+              </Collapse>
+            </Panel>
+          </Collapse>
+        </aside>
+
+        <main className="flex-1">
+          <header className="flex w-full gap-x-2">
+            <div className="relative flex-1">
+              <Input
+                prefix={<SearchOutlined />}
+                placeholder="Search..."
+                className="w-full rounded-lg"
+              />
+            </div>
+            <Button type="primary">Search</Button>
+          </header>
+
+          <div className="mt-6 flex flex-col gap-4">
+            <MovieCardSkeleton />
+            <MovieCardSkeleton />
+            <MovieCard />
+            <MovieCard />
+          </div>
+        </main>
+      </div>
+    </>
+  );
 }
-
-export default Home
-
-
-
-
-
-
