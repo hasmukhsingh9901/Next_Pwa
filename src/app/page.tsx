@@ -63,7 +63,7 @@ export default function Home() {
   return (
     <>
       <header className="pt-12 pb-3">
-        <h1 className="font-bold text-3xl">Your search</h1>
+        <h1 className="font-bold text-3xl text-black">Your search</h1>
       </header>
 
       <div className="min-h-screen flex flex-col md:flex-row gap-4 md:gap-8 p-4">
