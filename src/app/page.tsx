@@ -1,8 +1,14 @@
 "use client";
-import { Input, Button, Collapse, Select, Skeleton } from "antd";
-import { FilterOutlined, DownOutlined, UpOutlined, SearchOutlined } from "@ant-design/icons";
-import React, { useEffect } from "react";
-import { fetchMovies } from "@/lib/fetchMovies";
+import { Input, Button, Collapse, Select, Skeleton, Spin } from "antd";
+import {
+  FilterOutlined,
+  DownOutlined,
+  UpOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
+import { fetchMovies, Movie } from "@/lib/fetchMovies";
+import MovieCard from "@/components/MovieCard";
 
 const { Panel } = Collapse;
 
@@ -38,27 +44,23 @@ const RatingList = () => (
   </Select>
 );
 
-const MovieCard = () => (
-  <div className="bg-gray-100 p-4 rounded-lg">
-    <h3>Movie Title</h3>
-    <p>Some description about the movie...</p>
-  </div>
-);
 
-const MovieCardSkeleton = () => (
-  <Skeleton active />
-);
+
+const MovieCardSkeleton = () => <Skeleton active />;
 
 export default function Home() {
-  const fetchData = async () => {
+  const [loading, setLoading] = useState(true)
+  const [movies, setmovies] = React.useState<Movie[]>([])
 
-    const res = await fetchMovies({})
-    console.log(res)
-  }
+  const fetchData = async () => {
+    setLoading(true)
+    const res = await fetchMovies({});
+    console.log(res);
+  };
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -105,10 +107,9 @@ export default function Home() {
           </header>
 
           <div className="mt-6 flex flex-col gap-4">
-            <MovieCardSkeleton />
-            <MovieCardSkeleton />
-            <MovieCard />
-            <MovieCard />
+            {movies.map((movie, index) => (
+              <MovieCard key={index} movie={movie} />
+            ))}
           </div>
         </main>
       </div>
