@@ -1,12 +1,7 @@
 "use client";
 import { Input, Button, Collapse, Select, Skeleton, Spin } from "antd";
-import {
-  FilterOutlined,
-  DownOutlined,
-  UpOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
-import React, { useEffect, useState } from "react";
+import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
+import React, { useEffect, useState, Suspense } from "react";
 import { fetchMovies, Movie } from "@/lib/fetchMovies";
 import MovieCard from "@/components/MovieCard";
 
@@ -44,24 +39,33 @@ const RatingList = () => (
   </Select>
 );
 
-
-
 const MovieCardSkeleton = () => <Skeleton active />;
 
 export default function Home() {
-  const [loading, setLoading] = useState(true)
-  const [movies, setmovies] = React.useState<Movie[]>([])
+  const [loading, setLoading] = useState(true);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [mounted, setMounted] = useState(false);
 
+  // Set mounted state to ensure components only render on the client side
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Fetch data client-side only
   const fetchData = async () => {
-    setLoading(true)
+    setLoading(true);
     const res = await fetchMovies({});
-    console.log("Movies",res);
-    setmovies(res)
+    console.log("Movies", res);
+    setMovies(res);
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  // Avoid rendering any content during SSR
+  if (!mounted) return null;
 
   return (
     <>
@@ -108,7 +112,6 @@ export default function Home() {
           </header>
 
           <div className="mt-6 flex flex-col gap-4">
-            {/* <MovieCard/> */}
             {movies.map((movie, index) => (
               <MovieCard key={index} movie={movie} />
             ))}

@@ -25,7 +25,6 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
     (rating) => rating.Source === "Rotten Tomatoes"
   )?.Value;
 
-  console.log(rottenTomatoesRating)
   return (
     <div className="flex flex-col sm:flex-row bg-foreground p-4 rounded-lg">
       <img
