@@ -44,16 +44,11 @@ const MovieCardSkeleton = () => <Skeleton active />;
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const fetchData = async () => {
     setLoading(true);
     const res = await fetchMovies({});
-    console.log("Movies", res);
     setMovies(res);
     setLoading(false);
   };
@@ -61,9 +56,6 @@ export default function Home() {
   useEffect(() => {
     fetchData();
   }, []);
-
-  // Avoid rendering any content during SSR
-  if (!mounted) return null;
 
   return (
     <>
@@ -110,9 +102,19 @@ export default function Home() {
           </header>
 
           <div className="mt-6 flex flex-col gap-4">
-            {movies.map((movie, index) => (
-              <MovieCard key={index} movie={movie} />
-            ))}
+            {/* {loading ? (
+              <div className="mt-6 flex flex-col gap-4">
+                {[...Array(5)].map((_, i) => (
+                  <MovieCardSkeleton key={i} />
+                ))}
+              </div>
+            ) : ( */}
+            <div className="mt-6 flex flex-col gap-4">
+              {movies.map((movie, index) => (
+                <MovieCard key={index} movie={movie} />
+              ))}
+            </div>
+            {/* )} */}
           </div>
         </main>
       </div>
