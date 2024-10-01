@@ -46,12 +46,10 @@ export default function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [mounted, setMounted] = useState(false);
 
-  // Set mounted state to ensure components only render on the client side
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Fetch data client-side only
   const fetchData = async () => {
     setLoading(true);
     const res = await fetchMovies({});
