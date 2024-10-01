@@ -55,7 +55,8 @@ export default function Home() {
   const fetchData = async () => {
     setLoading(true)
     const res = await fetchMovies({});
-    console.log(res);
+    console.log("Movies",res);
+    setmovies(res)
   };
 
   useEffect(() => {
@@ -107,6 +108,7 @@ export default function Home() {
           </header>
 
           <div className="mt-6 flex flex-col gap-4">
+            {/* <MovieCard/> */}
             {movies.map((movie, index) => (
               <MovieCard key={index} movie={movie} />
             ))}

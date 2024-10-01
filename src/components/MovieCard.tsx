@@ -9,7 +9,7 @@ interface MovieCardProps {
     Runtime: string;
     Genre: string;
     imdbRating: string;
-    Rating: Array<{
+    Ratings: Array<{
       Source: string;
       Value: string;
     }>;
@@ -18,13 +18,14 @@ interface MovieCardProps {
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
-  const { Poster, Title, Year, Runtime, Genre, imdbRating, Rating, Plot } =
+  const { Poster, Title, Year, Runtime, Genre, imdbRating, Ratings, Plot } =
     movie;
 
-  const rottenTomatoesRating = Rating?.find(
+  const rottenTomatoesRating = Ratings?.find(
     (rating) => rating.Source === "Rotten Tomatoes"
   )?.Value;
 
+  console.log(rottenTomatoesRating)
   return (
     <div className="flex flex-col sm:flex-row bg-foreground p-4 rounded-lg">
       <img
@@ -35,26 +36,29 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
 
       <div className="sm:ml-4 mt-4 sm:mt-0 flex flex-col justify-between">
         <div>
-          <h2 className="text-xl font-bold">{Title}</h2>
-          <p className="text-sm text-gray-400">
-            {Year}•{Runtime}•{Genre}
+          <h2 className="text-xl font-bold text-black">{Title}</h2>
+          <p className="text-sm text-black">
+            {Year} • {Runtime} • {Genre}
           </p>
 
           <div className="flex items-center mt-2 space-x-2">
-            <div className="fkex items-center">
+            <div className="flex items-center">
               <img
                 src="/rotten-tomatoes-logo.svg"
                 alt="Rotten Tomatoes"
                 className="h-4"
               />
-              <span className="ml-1 text-sm">
+              <span className="ml-1 text-sm text-black">
                 {rottenTomatoesRating}
               </span>
             </div>
             <div className="flex items-center">
-              <img src="/imdb-logo.svg" alt="IMdb" className="h-4" />
+              <img src="/imdb-logo.svg" alt="IMDB" className="h-4" />
+              <span className="ml-1 text-sm text-black">{imdbRating}</span>
             </div>
           </div>
+
+          <p className="mt-2 text-sm text-black">{Plot}</p>
         </div>
       </div>
     </div>
