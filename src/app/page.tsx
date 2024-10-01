@@ -1,5 +1,5 @@
 "use client";
-import { Input, Button, Collapse, Select, Skeleton, Spin } from "antd";
+import { Input, Button, Collapse, Select, Skeleton, Spin, message } from "antd";
 import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
 import React, { useEffect, useState, Suspense } from "react";
 import { fetchMovies, Movie } from "@/lib/fetchMovies";
@@ -44,7 +44,22 @@ const MovieCardSkeleton = () => <Skeleton active />;
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [searchTerm, setSearchTerm] = useState("")
 
+  const handleSearchChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value)
+    // setSearchTerm(e.target.value);
+  }
+
+
+  const handleSearch  = ()=>{
+    const filtered = movies.filter((movie)=>{
+      movie.Title.toLowerCase().includes(searchTerm.toLowerCase());
+
+    })
+    console.log(filtered)
+    // setSearchTerm(filtered)
+  }
 
   const fetchData = async () => {
     setLoading(true);
@@ -94,11 +109,12 @@ export default function Home() {
             <div className="relative flex-1">
               <Input
                 prefix={<SearchOutlined />}
+                onChange={handleSearchChange}
                 placeholder="Search..."
                 className="w-full rounded-lg"
               />
             </div>
-            <Button type="primary">Search</Button>
+            <Button type="primary" onClick={handleSearch}>Search</Button>
           </header>
 
           <div className="mt-6 flex flex-col gap-4">
